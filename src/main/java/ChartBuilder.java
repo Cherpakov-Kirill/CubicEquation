@@ -13,21 +13,11 @@ public class ChartBuilder {
         int start = (int) (Math.floor(solution.firstAnswer) - 1);
         int finish = (int) (Math.ceil(solution.thirdAnswer) + 1);
         XYSeries seriesCubic = new XYSeries("x^3+" + aParam + "x^2+" + bParam + "x+" + cParam);
-        XYSeries seriesOX = new XYSeries("Ox");
-        XYSeries seriesOY = new XYSeries("Oy");
         for (float i = start; i <= finish; i += 0.1) {
-            seriesOX.add(i, 0);
             seriesCubic.add(i, i * i * i + aParam * i * i + bParam * i + cParam);
         }
         XYSeriesCollection xyDataset = new XYSeriesCollection();
         xyDataset.addSeries(seriesCubic);
-        xyDataset.addSeries(seriesOX);
-        if ((start >= 0 || finish >= 0) && (start <= 0 || finish <= 0)) {
-            for (double i = seriesCubic.getMinY(); i <= seriesCubic.getMaxY(); i += 0.1) {
-                seriesOY.add(0, i);
-            }
-            xyDataset.addSeries(seriesOY);
-        }
 
         JFreeChart chart = ChartFactory
                 .createXYLineChart("x^3+" + aParam + "x^2+" + bParam + "x+" + cParam, "x", "y",
@@ -36,7 +26,6 @@ public class ChartBuilder {
                         true, true, true);
         JFrame frame = new JFrame("Chart");
         frame.setSize(1000, 800);
-        ///frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

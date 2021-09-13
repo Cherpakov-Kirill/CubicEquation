@@ -32,7 +32,7 @@ public class AnswerFinder {
     private double findValIncreaseFunction(Interval interval) {
         double central = (interval.a + interval.b) / 2;
         double distance = function(central);
-        while (Math.abs(distance) > epsilon) {
+        while (Math.abs(distance) > epsilon && Math.abs(interval.a - interval.b) >= epsilon) {
             if (distance < -epsilon) interval.a = central;
             if (distance > epsilon) interval.b = central;
             central = (interval.a + interval.b) / 2;
@@ -44,7 +44,7 @@ public class AnswerFinder {
     private double findValDecreaseFunction(Interval interval) {
         double central = (interval.a + interval.b) / 2;
         double distance = function(central);
-        while (Math.abs(function(central)) > epsilon) {
+        while (Math.abs(function(central)) > epsilon && Math.abs(interval.a - interval.b) >= epsilon) {
             if (distance < -epsilon) interval.b = central;
             if (distance > epsilon) interval.a = central;
             central = (interval.a + interval.b) / 2;
@@ -75,8 +75,8 @@ public class AnswerFinder {
             thirdAnswer = firstAnswer;
         } else {
             final double sqrt = Math.sqrt(a * a - 3 * b);
-            double extremumMax = (-a - sqrt) / (double)3;
-            double extremumMin = (-a + sqrt) / (double)3;
+            double extremumMax = (-a - sqrt) / (double) 3;
+            double extremumMin = (-a + sqrt) / (double) 3;
             if (function(extremumMin) > epsilon) {
                 countOfAnswers = 1;
                 Interval interval = findInterval(extremumMax, -delta);
@@ -107,11 +107,16 @@ public class AnswerFinder {
                 firstAnswer = findValIncreaseFunction(interval);
                 secondAnswer = extremumMin;
                 thirdAnswer = secondAnswer;
-            } else if(Math.abs(function(extremumMin)) <= epsilon && Math.abs(function(extremumMax)) <= epsilon){
+            } else if (Math.abs(function(extremumMin)) <= epsilon && Math.abs(function(extremumMax)) <= epsilon) {
                 countOfAnswers = 1;
                 firstAnswer = extremumMax;
                 thirdAnswer = extremumMin;
             }
+        }
+        switch (countOfAnswers) {
+            case 1 -> System.out.println("Answer: " + firstAnswer);
+            case 2 -> System.out.println("Answer 1: " + firstAnswer + "\nAnswer 2: " + secondAnswer);
+            case 3 -> System.out.println("Answer 1: " + firstAnswer + "\nAnswer 2: " + secondAnswer + "\nAnswer 3: " + thirdAnswer);
         }
     }
 }
