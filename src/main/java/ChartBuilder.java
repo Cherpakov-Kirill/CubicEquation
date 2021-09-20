@@ -13,7 +13,10 @@ public class ChartBuilder {
         int start = (int) (Math.floor(solution.firstAnswer) - 1);
         int finish = (int) (Math.ceil(solution.thirdAnswer) + 1);
         XYSeries seriesCubic = new XYSeries("x^3+" + aParam + "x^2+" + bParam + "x+" + cParam);
-        for (float i = start; i <= finish; i += 0.1) {
+//        for (float i = start; i <= finish; i += 0.1) {
+//            seriesCubic.add(i, i * i * i + aParam * i * i + bParam * i + cParam);
+//        }
+        for (float i = -(int)aParam; i <= aParam; i += 0.1) {
             seriesCubic.add(i, i * i * i + aParam * i * i + bParam * i + cParam);
         }
         XYSeriesCollection xyDataset = new XYSeriesCollection();
